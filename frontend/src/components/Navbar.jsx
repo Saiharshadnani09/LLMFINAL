@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logo from '../assets/peopletechimg.png'; // Adjust path based on your file location
 
 function Navbar() {
   const navigate = useNavigate();
@@ -13,9 +14,12 @@ function Navbar() {
 
   return (
    <nav className="bg-[#b52a4f] text-white p-4 flex justify-between items-center shadow-md">
-      <h1 className="text-xl font-bold cursor-pointer" onClick={() => navigate("/")}>
-         People Tech Group INC
-      </h1>
+      <img
+        src={logo}
+        alt="Logo"
+        className="cursor-pointer w-20"
+        onClick={() => navigate("/")}
+      />
 
       <div className="flex items-center space-x-4">
         {user ? (
