@@ -14,7 +14,7 @@ function Navbar() {
   return (
    <nav className="bg-[#b52a4f] text-white p-4 flex justify-between items-center shadow-md">
       <h1 className="text-xl font-bold cursor-pointer" onClick={() => navigate("/")}>
-         People
+         People Tech Group INC
       </h1>
 
       <div className="flex items-center space-x-4">
