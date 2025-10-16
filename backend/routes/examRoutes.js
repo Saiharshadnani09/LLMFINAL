@@ -4,7 +4,7 @@ import Exam from "../models/Exam.js";
 
 const router = express.Router();
 
-// 🔹 Create new exam (with optional scheduling)
+// 🔹 Create new exam (with optional scheduling)..
 router.post("/", async (req, res) => {
   try {
     const { title, questions, startTime, endTime, duration, examType } = req.body;
