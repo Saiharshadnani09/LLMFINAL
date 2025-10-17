@@ -27,7 +27,7 @@ function Navbar() {
       <img
         src={logo}
         alt="Logo"
-        className="cursor-pointer w-24 sm:w-28 md:w-32 drop-shadow" // responsive width
+        className="cursor-pointer w-28 sm:w-28 md:w-32 drop-shadow" // responsive width
         onClick={() => navigate("/")}
       />
 
