@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import AuthBackground from "../components/AuthBackground";
+import ParticlesBackground from "../components/ParticlesBackground";
 
 function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "", role: "student" });
@@ -29,45 +31,57 @@ function Register() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Register</h2>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-          required
-        />
+    <div className="relative min-h-[calc(100vh-0px)] flex items-center justify-center bg-white py-12 overflow-hidden">
+      <AuthBackground />
+      <ParticlesBackground />
+      <div className="relative z-10 w-full max-w-md bg-white rounded-xl p-8 shadow-lg border border-zinc-200">
+        <h2 className="text-2xl font-semibold text-zinc-900 mb-6 text-center">Create Account</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm text-zinc-700 mb-1">Full Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="John Doe"
+              onChange={handleChange}
+              className="w-full bg-white border border-zinc-300 text-zinc-900 placeholder-zinc-400 p-3 rounded focus:outline-none focus:ring-2 focus:ring-zinc-400/60"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-zinc-700 mb-1">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              onChange={handleChange}
+              className="w-full bg-white border border-zinc-300 text-zinc-900 placeholder-zinc-400 p-3 rounded focus:outline-none focus:ring-2 focus:ring-zinc-400/60"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-zinc-700 mb-1">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              onChange={handleChange}
+              className="w-full bg-white border border-zinc-300 text-zinc-900 placeholder-zinc-400 p-3 rounded focus:outline-none focus:ring-2 focus:ring-zinc-400/60"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-zinc-700 mb-1">Role</label>
+            <select name="role" onChange={handleChange} className="w-full bg-white border border-zinc-300 text-zinc-900 p-3 rounded focus:outline-none">
+              <option value="student">Student</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
 
-        {/* Role selection */}
-        <select name="role" onChange={handleChange} className="w-full border p-2 rounded">
-          <option value="student">Student</option>
-          <option value="admin">Admin</option>
-        </select>
-
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-          Register
-        </button>
-      </form>
-      {message && <p className="mt-3">{message}</p>}
+          <button type="submit" className="w-full bg-black text-white font-medium py-3 rounded hover:bg-zinc-800 transition">Create Account</button>
+        </form>
+        {message && <p className="mt-4 text-center text-red-600">{message}</p>}
+      </div>
     </div>
   );
 }

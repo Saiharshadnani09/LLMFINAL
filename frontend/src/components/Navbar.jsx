@@ -16,7 +16,7 @@ function Navbar() {
   const isHome = location.pathname === "/";
 
   return (
-   <nav className={`${isHome ? "bg-transparent absolute top-0 left-0 w-full z-50" : "bg-[#a71e38] shadow-md"} text-white p-4 flex justify-between items-center`}>
+   <nav className={`${isHome ? "bg-black/80 backdrop-blur absolute top-0 left-0 w-full z-50" : "bg-black shadow-md"} text-white p-4 flex justify-between items-center`}>
       <img
         src={logo}
         alt="Logo"
