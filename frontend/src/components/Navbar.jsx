@@ -1,9 +1,10 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from '../assets/peopletechimg.png'; // Adjust path based on your file location
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
@@ -12,12 +13,14 @@ function Navbar() {
     navigate("/login");
   };
 
+  const isHome = location.pathname === "/";
+
   return (
-   <nav className="bg-[#a71e38] text-white p-4 flex justify-between items-center shadow-md">
+   <nav className={`${isHome ? "bg-transparent absolute top-0 left-0 w-full z-50" : "bg-[#a71e38] shadow-md"} text-white p-4 flex justify-between items-center`}>
       <img
         src={logo}
         alt="Logo"
-        className="cursor-pointer w-20"
+        className="cursor-pointer w-20 drop-shadow"
         onClick={() => navigate("/")}
       />
 
@@ -39,15 +42,15 @@ function Navbar() {
 
             <button
               onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-700 px-3 py-1 rounded"
+              className="px-3 py-1 rounded border border-white/30 bg-transparent text-white hover:bg-white/10"
             >
               Logout
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="hover:underline">Login</Link>
-            <Link to="/register" className="hover:underline">Register</Link>
+            <Link to="/login" className="px-3 py-1 rounded bg-transparent text-white hover:bg-white/10">Login</Link>
+            <Link to="/register" className="px-3 py-1 rounded bg-transparent text-white hover:bg-white/10">Register</Link>
           </>
         )}
       </div>
