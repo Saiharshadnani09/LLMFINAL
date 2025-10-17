@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import AuthBackground from "../components/AuthBackground";
-import ParticlesBackground from "../components/ParticlesBackground";
 
 function AdminDashboard() {
   const [exams, setExams] = useState([]);
@@ -108,8 +106,10 @@ function AdminDashboard() {
 
   return (
     <div className="relative p-6 overflow-hidden bg-white min-h-[calc(100vh-0px)]">
-      <AuthBackground />
-      <ParticlesBackground />
+      {/* Static background image (no animation) */}
+      <div className="absolute inset-0 z-0">
+        <img src="/peopletech/ptg background.png" alt="Background" className="w-full h-full object-cover opacity-20" />
+      </div>
       <div className="relative z-10">
       <h2 className="text-xl font-bold mb-4">📘 Exam Dashboard (Admin)</h2>
 
