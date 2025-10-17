@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import logo from '../assets/image.png'; // Adjust path based on your file location
+import logo from '../assets/image.png'; // your logo path
 
 function Navbar() {
   const navigate = useNavigate();
@@ -16,14 +16,22 @@ function Navbar() {
   const isHome = location.pathname === "/";
 
   return (
-   <nav className={`${isHome ? "bg-black/80 backdrop-blur absolute top-0 left-0 w-full z-50" : "bg-black shadow-md"} text-white p-4 flex justify-between items-center`}>
+    <nav
+      className={`${
+        isHome
+          ? "bg-black/80 backdrop-blur absolute top-0 left-0 w-full z-50"
+          : "bg-black shadow-md"
+      } text-white p-4 flex justify-between items-center`}
+    >
+      {/* Logo */}
       <img
         src={logo}
         alt="Logo"
-        className="cursor-pointer w-20 drop-shadow"
+        className="cursor-pointer w-28 sm:w-28 md:w-32 drop-shadow" // responsive width
         onClick={() => navigate("/")}
       />
 
+      {/* Navigation Links / User */}
       <div className="flex items-center space-x-4">
         {user ? (
           <>
@@ -31,13 +39,17 @@ function Navbar() {
 
             {user.role === "admin" ? (
               <>
-                <Link to="/admin" className="hover:underline">Admin Dashboard</Link>
-                <Link to="/admin/students" className="hover:underline">Students</Link>
+                <Link to="/admin" className="hover:underline">
+                  Admin Dashboard
+                </Link>
+                <Link to="/admin/students" className="hover:underline">
+                  Students
+                </Link>
               </>
             ) : (
-              <>
-                <Link to="/profile" className="hover:underline">Profile</Link>
-              </>
+              <Link to="/profile" className="hover:underline">
+                Profile
+              </Link>
             )}
 
             <button
@@ -49,8 +61,18 @@ function Navbar() {
           </>
         ) : (
           <>
-            <Link to="/login" className="px-3 py-1 rounded bg-transparent text-white hover:bg-white/10">Login</Link>
-            <Link to="/register" className="px-3 py-1 rounded bg-transparent text-white hover:bg-white/10">Register</Link>
+            <Link
+              to="/login"
+              className="px-3 py-1 rounded bg-transparent text-white hover:bg-white/10"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="px-3 py-1 rounded bg-transparent text-white hover:bg-white/10"
+            >
+              Register
+            </Link>
           </>
         )}
       </div>
