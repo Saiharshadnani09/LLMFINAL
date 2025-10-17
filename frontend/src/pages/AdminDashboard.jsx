@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import AuthBackground from "../components/AuthBackground";
+import ParticlesBackground from "../components/ParticlesBackground";
 
 function AdminDashboard() {
   const [exams, setExams] = useState([]);
@@ -105,33 +107,36 @@ function AdminDashboard() {
   };
 
   return (
-    <div className="p-6">
+    <div className="relative p-6 overflow-hidden bg-white min-h-[calc(100vh-0px)]">
+      <AuthBackground />
+      <ParticlesBackground />
+      <div className="relative z-10">
       <h2 className="text-xl font-bold mb-4">📘 Exam Dashboard (Admin)</h2>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-600">{error}</p>}
 
       {/* Exam Type Selector */}
       <div className="mb-6 flex gap-3">
         <button
           onClick={() => setExamType("mcq")}
-          className={`px-4 py-2 rounded border ${
-            examType === "mcq" ? "bg-blue-600 text-white" : "bg-white"
+          className={`px-4 py-2 rounded border border-zinc-300 ${
+            examType === "mcq" ? "bg-black text-white" : "bg-white text-black hover:bg-zinc-100"
           }`}
         >
           1) MCQ's
         </button>
         <button
           onClick={() => setExamType("coding")}
-          className={`px-4 py-2 rounded border ${
-            examType === "coding" ? "bg-blue-600 text-white" : "bg-white"
+          className={`px-4 py-2 rounded border border-zinc-300 ${
+            examType === "coding" ? "bg-black text-white" : "bg-white text-black hover:bg-zinc-100"
           }`}
         >
           2) Coding
         </button>
         <button
           onClick={() => setExamType("theory")}
-          className={`px-4 py-2 rounded border ${
-            examType === "theory" ? "bg-blue-600 text-white" : "bg-white"
+          className={`px-4 py-2 rounded border border-zinc-300 ${
+            examType === "theory" ? "bg-black text-white" : "bg-white text-black hover:bg-zinc-100"
           }`}
         >
           3) Theory
@@ -141,7 +146,7 @@ function AdminDashboard() {
       {/* Sections */}
       {examType === "mcq" && (
         <div className="mb-8">
-          <div className="bg-white border rounded-xl shadow p-5">
+          <div className="bg-white/90 backdrop-blur border rounded-xl shadow p-5">
             <h3 className="text-lg font-semibold mb-3">{editExamId ? "Edit MCQ Exam" : "Create MCQ Exam"}</h3>
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">Exam Title</label>
@@ -201,7 +206,7 @@ function AdminDashboard() {
                 <div className="mt-4 flex gap-3">
                   <button
                     onClick={handleAddQuestion}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+                    className="bg-black hover:bg-zinc-800 text-white px-4 py-2 rounded"
                     type="button"
                   >
                     + Add Question
@@ -212,7 +217,7 @@ function AdminDashboard() {
                       setOptions(["", "", "", ""]);
                       setCorrectAnswer(0);
                     }}
-                    className="bg-gray-200 px-4 py-2 rounded"
+                    className="px-4 py-2 rounded border border-zinc-300 hover:bg-zinc-100"
                     type="button"
                   >
                     Reset
@@ -227,7 +232,7 @@ function AdminDashboard() {
                   <div className="flex gap-2">
                     <button
                       onClick={handlePublishExam}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                      className="bg-black hover:bg-zinc-800 text-white px-4 py-2 rounded"
                       type="button"
                     >
                       {editExamId ? "Save Changes" : "Publish Exam"}
@@ -235,7 +240,7 @@ function AdminDashboard() {
                     {editExamId && (
                       <button
                         type="button"
-                        className="px-4 py-2 border rounded"
+                        className="px-4 py-2 border border-zinc-300 rounded hover:bg-zinc-100"
                         onClick={() => {
                           setEditExamId(null);
                           setSuccess("Exited edit mode");
@@ -287,7 +292,7 @@ function AdminDashboard() {
                   </div>
                 </div>
                 {questionsDraft.length === 0 ? (
-                  <p className="text-sm text-gray-600">No questions added yet.</p>
+                  <p className="text-sm text-zinc-600">No questions added yet.</p>
                 ) : (
                   <div className="space-y-3 max-h-80 overflow-auto pr-1">
                     {questionsDraft.map((q, idx) => (
@@ -297,7 +302,7 @@ function AdminDashboard() {
                         </p>
                         <ul className="list-disc pl-5 text-sm">
                           {q.options.map((o, oi) => (
-                            <li key={oi} className={oi === q.correctAnswer ? "font-semibold text-green-700" : ""}>
+                            <li key={oi} className={oi === q.correctAnswer ? "font-semibold text-black" : ""}>
                               {o} {oi === q.correctAnswer ? "(correct)" : ""}
                             </li>
                           ))}
@@ -305,7 +310,7 @@ function AdminDashboard() {
                         <div className="mt-2">
                           <button
                             type="button"
-                            className="text-sm text-red-600 hover:underline"
+                            className="text-sm text-zinc-700 hover:underline"
                             onClick={() =>
                               setQuestionsDraft((prev) => prev.filter((_, i) => i !== idx))
                             }
@@ -318,7 +323,7 @@ function AdminDashboard() {
                   </div>
                 )}
                 {(error || success) && (
-                  <p className={`mt-3 text-sm ${error ? "text-red-600" : "text-green-700"}`}>
+                  <p className={`mt-3 text-sm ${error ? "text-red-600" : "text-zinc-700"}`}>
                     {error || success}
                   </p>
                 )}
@@ -329,17 +334,21 @@ function AdminDashboard() {
       )}
 
       {examType === "coding" && (
-        <CodingBuilder fetchExams={fetchExams} />
+        <div className="bg-white/90 backdrop-blur border rounded-xl shadow p-5 mb-8">
+          <CodingBuilder fetchExams={fetchExams} />
+        </div>
       )}
 
       {examType === "theory" && (
-        <TheoryBuilder fetchExams={fetchExams} editExam={theoryEditExam} setEditExam={setTheoryEditExam} />
+        <div className="bg-white/90 backdrop-blur border rounded-xl shadow p-5 mb-8">
+          <TheoryBuilder fetchExams={fetchExams} editExam={theoryEditExam} setEditExam={setTheoryEditExam} />
+        </div>
       )}
 
       {/* Exam List (filtered by type) */}
       <h3 className="text-lg font-bold">📑 {examType.toUpperCase()} Exams</h3>
       {exams.filter((e) => (examType === "coding" ? e.examType === "coding" : e.examType === examType)).length === 0 ? (
-        <p>No exams found</p>
+        <p className="text-zinc-600">No exams found</p>
       ) : (
         <div className="space-y-3">
           {exams
@@ -352,7 +361,7 @@ function AdminDashboard() {
               <div key={exam._id} className="p-3 border rounded flex items-center justify-between bg-white">
                 <div>
                   <p className="font-semibold">{exam.title}</p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-zinc-600">
                     {exam.questions.length} questions
                     {exam.startTime ? ` | Starts: ${new Date(exam.startTime).toLocaleString()}` : ""}
                     {exam.endTime ? ` | Ends: ${new Date(exam.endTime).toLocaleString()}` : ""}
@@ -360,7 +369,7 @@ function AdminDashboard() {
                 </div>
                 <div className="flex gap-2">
                   <button
-                    className={`px-3 py-1 rounded border ${editable ? "bg-yellow-100 hover:bg-yellow-200" : "bg-gray-100 cursor-not-allowed"}`}
+                    className={`px-3 py-1 rounded border border-zinc-300 ${editable ? "hover:bg-zinc-100" : "bg-zinc-100 cursor-not-allowed"}`}
                     disabled={!editable}
                     onClick={async () => {
                       if (!editable) return;
@@ -384,7 +393,7 @@ function AdminDashboard() {
                     Edit
                   </button>
                   <button
-                    className="px-3 py-1 rounded border bg-red-100 hover:bg-red-200"
+                    className="px-3 py-1 rounded border border-zinc-300 hover:bg-zinc-100"
                     onClick={async () => {
                       if (!confirm("Delete this exam? This action cannot be undone.")) return;
                       try {
@@ -408,6 +417,7 @@ function AdminDashboard() {
           })}
         </div>
       )}
+      </div>
     </div>
   );
 }
@@ -505,13 +515,13 @@ function TheoryBuilder({ fetchExams }) {
         <label className="block text-sm font-medium mb-1">Theory Question</label>
         <textarea className="border p-2 rounded w-full h-24" value={prompt} onChange={(e) => setPrompt(e.target.value)} />
         <div className="mt-2 flex gap-2">
-          <button onClick={addQuestion} type="button" className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded">
+          <button onClick={addQuestion} type="button" className="px-4 py-2 bg-black hover:bg-zinc-800 text-white rounded">
             + Add Question
           </button>
           <button
             onClick={() => setPrompt("")}
             type="button"
-            className="px-4 py-2 bg-gray-200 rounded"
+            className="px-4 py-2 border border-zinc-300 rounded hover:bg-zinc-100"
           >
             Reset
           </button>
@@ -520,19 +530,19 @@ function TheoryBuilder({ fetchExams }) {
       <div>
         <div className="flex items-center justify-between mb-2">
           <h4 className="font-semibold">Draft Questions ({questions.length})</h4>
-          <button onClick={publish} type="button" className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+          <button onClick={publish} type="button" className="px-4 py-2 bg-black hover:bg-zinc-800 text-white rounded">
             {editId ? "Save Changes" : "Publish Exam"}
           </button>
         </div>
         {questions.length === 0 ? (
-          <p className="text-sm text-gray-600">No questions added yet.</p>
+          <p className="text-sm text-zinc-600">No questions added yet.</p>
         ) : (
           <div className="space-y-2">
             {questions.map((q, i) => (
               <div key={i} className="border rounded p-3 bg-gray-50">
                 <div className="flex items-start justify-between">
                   <p className="font-medium mr-3">{i + 1}. {q.prompt}</p>
-                  <button className="text-red-600 text-sm" onClick={() => setQuestions((prev) => prev.filter((_, idx) => idx !== i))}>Delete</button>
+                  <button className="text-zinc-700 text-sm hover:underline" onClick={() => setQuestions((prev) => prev.filter((_, idx) => idx !== i))}>Delete</button>
                 </div>
               </div>
             ))}
@@ -540,7 +550,7 @@ function TheoryBuilder({ fetchExams }) {
         )}
       </div>
       {(success || error) && (
-        <p className={`text-sm ${error ? "text-red-600" : "text-green-700"}`}>{error || success}</p>
+        <p className={`text-sm ${error ? "text-red-600" : "text-zinc-700"}`}>{error || success}</p>
       )}
     </div>
   );
@@ -660,7 +670,7 @@ function CodingBuilder({ fetchExams }) {
       <div>
         <div className="flex items-center justify-between mb-2">
           <h4 className="font-semibold">Testcases</h4>
-          <button onClick={addCase} className="px-3 py-1 bg-green-600 text-white rounded" type="button">+ Add Case</button>
+          <button onClick={addCase} className="px-3 py-1 bg-black text-white rounded hover:bg-zinc-800" type="button">+ Add Case</button>
         </div>
         <div className="space-y-2">
           {testcases.map((tc, i) => (
@@ -668,17 +678,17 @@ function CodingBuilder({ fetchExams }) {
               <input className="border p-2 rounded" placeholder="Input" value={tc.input} onChange={(e) => setTestcases((t) => t.map((c, idx) => idx === i ? { ...c, input: e.target.value } : c))} />
               <div className="flex gap-2">
                 <input className="border p-2 rounded w-full" placeholder="Expected output" value={tc.expected} onChange={(e) => setTestcases((t) => t.map((c, idx) => idx === i ? { ...c, expected: e.target.value } : c))} />
-                <button className="text-red-600" onClick={() => removeCase(i)} type="button">Delete</button>
+                <button className="text-zinc-700 hover:underline" onClick={() => removeCase(i)} type="button">Delete</button>
               </div>
             </div>
           ))}
         </div>
       </div>
       <div className="flex gap-2">
-        <button onClick={publish} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded" type="button">{editId ? "Save Changes" : "Publish Exam"}</button>
-        {editId && <button onClick={() => setEditId(null)} className="px-4 py-2 border rounded" type="button">Cancel Edit</button>}
+        <button onClick={publish} className="px-4 py-2 bg-black hover:bg-zinc-800 text-white rounded" type="button">{editId ? "Save Changes" : "Publish Exam"}</button>
+        {editId && <button onClick={() => setEditId(null)} className="px-4 py-2 border border-zinc-300 rounded hover:bg-zinc-100" type="button">Cancel Edit</button>}
       </div>
-      {(success || error) && <p className={`text-sm ${error ? "text-red-600" : "text-green-700"}`}>{error || success}</p>}
+      {(success || error) && <p className={`text-sm ${error ? "text-red-600" : "text-zinc-700"}`}>{error || success}</p>}
     </div>
   );
 }
