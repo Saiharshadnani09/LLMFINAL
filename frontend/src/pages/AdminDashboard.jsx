@@ -47,7 +47,7 @@ function AdminDashboard() {
     }
     const newItem = { question, options: filledOptions, correctAnswer };
     setQuestionsDraft((prev) => [...prev, newItem]);
-    // reset current editor
+    // reset current editorcd
     setQuestion("");
     setOptions(["", "", "", ""]);
     setCorrectAnswer(0);
