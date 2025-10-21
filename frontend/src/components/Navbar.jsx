@@ -45,11 +45,25 @@ function Navbar() {
                 <Link to="/admin/students" className="hover:underline">
                   Students
                 </Link>
+                <Link to="/admin/training" className="hover:underline">
+                  Training Portal
+                </Link>
+                <Link to="/admin/schedules" className="hover:underline">
+                  Schedule Portal
+                </Link>
               </>
             ) : (
-              <Link to="/profile" className="hover:underline">
-                Profile
-              </Link>
+              <>
+                <Link to="/profile" className="hover:underline">
+                  Profile
+                </Link>
+                <Link to="/training" className="hover:underline">
+                  Training Videos
+                </Link>
+                <Link to="/schedules" className="hover:underline">
+                  Schedules
+                </Link>
+              </>
             )}
 
             <button

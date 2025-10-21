@@ -301,15 +301,16 @@ function ExamPage() {
   const currentCode = (answers && answers.code) ?? starterCode;
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen bg-black text-white p-6 max-w-4xl mx-auto">
       {showWarning && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-md shadow-lg max-w-sm w-full text-center">
-            <h3 className="text-lg font-semibold mb-2">Warning</h3>
-            <p className="text-sm mb-4">{violationReason}. You have {Math.max(0, 3 - violationCount)} warnings left before auto-submission.</p>
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+          <div className="bg-gray-900 p-6 rounded-xl shadow-2xl max-w-sm w-full text-center border border-red-500">
+            <div className="text-4xl mb-4">⚠️</div>
+            <h3 className="text-xl font-semibold mb-3 text-red-400">Warning</h3>
+            <p className="text-sm mb-6 text-gray-300">{violationReason}. You have {Math.max(0, 3 - violationCount)} warnings left before auto-submission.</p>
             <div className="flex items-center justify-center space-x-3">
               <button
-                className="px-4 py-2 bg-blue-600 text-white rounded"
+                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
                 onClick={() => {
                   setShowWarning(false);
                   // Try to re-enter fullscreen if not in fullscreen
@@ -323,27 +324,45 @@ function ExamPage() {
         </div>
       )}
       {!isFullscreen && (
-        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
-          <p className="text-sm mb-2">For a distraction-free test, please enter fullscreen mode.</p>
-          <button onClick={enterFullscreen} className="px-4 py-1 bg-yellow-600 text-white rounded">Enter Fullscreen</button>
-          {fullscreenError && <p className="text-xs mt-1 text-red-600">{fullscreenError}</p>}
+        <div className="mb-6 p-4 bg-yellow-900/30 border border-yellow-500 rounded-lg">
+          <p className="text-sm mb-3 text-yellow-300">For a distraction-free test, please enter fullscreen mode.</p>
+          <button onClick={enterFullscreen} className="px-4 py-2 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700 text-white rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+            Enter Fullscreen
+          </button>
+          {fullscreenError && <p className="text-xs mt-2 text-red-400">{fullscreenError}</p>}
         </div>
       )}
-      <h2 className="text-2xl font-bold mb-2">{exam.title}</h2>
-      {timeLeftMs != null && (
-        <div className="mb-4 text-sm text-gray-700">
-          Time left: {Math.max(0, Math.floor(timeLeftMs / 60000))}m {Math.max(0, Math.floor((timeLeftMs % 60000) / 1000))}s
-        </div>
-      )}
+      
+      <div className="bg-gray-900 p-6 rounded-xl border border-gray-700 mb-6">
+        <h2 className="text-3xl font-bold mb-4 text-center">
+          <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            {exam.title}
+          </span>
+        </h2>
+        {timeLeftMs != null && (
+          <div className="mb-4 text-center">
+            <div className="inline-flex items-center px-4 py-2 bg-red-900/30 border border-red-500 rounded-lg">
+              <span className="text-red-400 font-bold text-lg">
+                ⏰ Time left: {Math.max(0, Math.floor(timeLeftMs / 60000))}m {Math.max(0, Math.floor((timeLeftMs % 60000) / 1000))}s
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Progress Bar */}
-      <div className="mb-6">
-        <p className="mb-1 text-sm text-gray-700">
-          Answered {answeredCount} / {totalQuestions}
-        </p>
-        <div className="w-full bg-gray-200 rounded h-3">
+      <div className="mb-8 bg-gray-900 p-4 rounded-xl border border-gray-700">
+        <div className="flex justify-between items-center mb-2">
+          <p className="text-sm text-gray-300">
+            Progress: {answeredCount} / {totalQuestions} questions
+          </p>
+          <span className="text-sm text-blue-400 font-semibold">
+            {Math.round(progress)}%
+          </span>
+        </div>
+        <div className="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
           <div
-            className="bg-green-500 h-3 rounded transition-all duration-500"
+            className="bg-gradient-to-r from-green-500 to-blue-500 h-4 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
@@ -351,10 +370,10 @@ function ExamPage() {
 
       {exam.examType === "theory"
         ? exam.questions.map((q, qIndex) => (
-            <div key={qIndex} className="mb-6 border-b pb-4">
-              <p className="font-semibold mb-2">{qIndex + 1}. {q.question}</p>
+            <div key={qIndex} className="mb-8 bg-gray-900 p-6 rounded-xl border border-gray-700 hover:border-gray-600 transition-all duration-300">
+              <p className="font-semibold mb-4 text-lg text-white">{qIndex + 1}. {q.question}</p>
               <textarea
-                className="w-full border rounded p-2 h-40"
+                className="w-full border border-gray-600 bg-gray-800 text-white rounded-lg p-4 h-40 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
                 placeholder="Type your answer here..."
                 value={answers[qIndex] ?? ""}
                 onChange={(e) => setAnswers((prev) => ({ ...prev, [qIndex]: e.target.value }))}
@@ -362,99 +381,121 @@ function ExamPage() {
             </div>
           ))
         : exam.examType === "coding" ? (
-          <div className="mb-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="font-semibold mb-2">Problem</p>
-                <div className="p-3 border rounded bg-gray-50 whitespace-pre-wrap min-h-40">
+          <div className="mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
+                <p className="font-semibold mb-4 text-xl text-white flex items-center">
+                  <span className="mr-2">💻</span> Problem Statement
+                </p>
+                <div className="p-4 border border-gray-600 rounded-lg bg-gray-800 text-gray-200 whitespace-pre-wrap min-h-40 font-mono text-sm">
                   {exam.questions?.[0]?.question}
                 </div>
                 {Array.isArray(exam.questions?.[0]?.testcases) && (
-                  <div className="mt-4">
-                    <p className="font-semibold mb-2">Sample Testcases</p>
-                    <ul className="list-disc pl-5 text-sm text-gray-700">
-                      {exam.questions[0].testcases.slice(0,5).map((tc, i) => (
-                        <li key={i}>input: {String(tc.input)} → expected: {String(tc.expected)}</li>
-                      ))}
-                    </ul>
+                  <div className="mt-6">
+                    <p className="font-semibold mb-3 text-lg text-white flex items-center">
+                      <span className="mr-2">🧪</span> Sample Testcases
+                    </p>
+                    <div className="bg-gray-800 p-4 rounded-lg border border-gray-600">
+                      <ul className="list-disc pl-5 text-sm text-gray-300 space-y-2">
+                        {exam.questions[0].testcases.slice(0,5).map((tc, i) => (
+                          <li key={i} className="font-mono">
+                            <span className="text-blue-400">Input:</span> {String(tc.input)} 
+                            <span className="text-green-400 ml-2">→ Expected:</span> {String(tc.expected)}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 )}
               </div>
-              <div>
-                <p className="font-semibold mb-2">Your Code</p>
+              <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
+                <p className="font-semibold mb-4 text-xl text-white flex items-center">
+                  <span className="mr-2">⚡</span> Your Code
+                </p>
                 <textarea
-                  className="w-full border rounded p-2 h-80 font-mono"
+                  className="w-full border border-gray-600 bg-gray-800 text-white rounded-lg p-4 h-80 font-mono text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
                   value={currentCode}
                   onChange={(e) => setAnswers((prev) => ({ ...(prev || {}), code: e.target.value }))}
+                  placeholder="Write your solution here..."
                 />
-                <div className="mt-3">
-                  <p className="font-semibold mb-2">Program Input (stdin)</p>
+                <div className="mt-4">
+                  <p className="font-semibold mb-2 text-white">Program Input (stdin)</p>
                   <textarea
-                    className="w-full border rounded p-2 h-24 font-mono"
+                    className="w-full border border-gray-600 bg-gray-800 text-white rounded-lg p-3 h-24 font-mono text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
                     placeholder="Optional input passed to your program"
                     value={runInput}
                     onChange={(e) => setRunInput(e.target.value)}
                   />
                   {currentLanguage === "python" && /input\s*\(/.test(String(currentCode)) && !runInput.trim() && (
-                    <p className="mt-1 text-xs text-amber-700">Your code uses input(). Provide sample input above to avoid EOF errors.</p>
+                    <p className="mt-2 text-xs text-yellow-400 bg-yellow-900/30 p-2 rounded border border-yellow-500">
+                      Your code uses input(). Provide sample input above to avoid EOF errors.
+                    </p>
                   )}
                 </div>
               </div>
             </div>
-            <div className="mt-3 flex items-center space-x-3">
+            <div className="mt-6 flex flex-wrap items-center gap-4">
               <button
                 onClick={handleRunCode}
-                className="px-4 py-2 bg-purple-600 text-white rounded disabled:opacity-60"
+                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-60 disabled:transform-none flex items-center"
                 disabled={running}
               >
+                <span className="mr-2">{running ? "⏳" : "▶️"}</span>
                 {running ? "Running..." : "Run Code"}
               </button>
               {Array.isArray(exam.questions?.[0]?.testcases) && exam.questions[0].testcases.length > 0 && (
                 <button
                   onClick={handleRunSampleTests}
-                  className="px-4 py-2 bg-emerald-600 text-white rounded disabled:opacity-60"
+                  className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-60 disabled:transform-none flex items-center"
                   disabled={runningSamples}
                 >
+                  <span className="mr-2">{runningSamples ? "⏳" : "🧪"}</span>
                   {runningSamples ? "Running Samples..." : "Run Sample Tests"}
                 </button>
               )}
             </div>
             {runResult && (
-              <div className="mt-4 p-3 border rounded bg-gray-50">
-                <p className="text-sm"><span className="font-semibold">Status:</span> {runResult.status}</p>
+              <div className="mt-6 p-4 border border-gray-600 rounded-xl bg-gray-900">
+                <p className="text-sm mb-3"><span className="font-semibold text-blue-400">Status:</span> <span className="text-white">{runResult.status}</span></p>
                 {runResult.stdout && (
-                  <div className="mt-2">
-                    <p className="text-sm font-semibold">Output:</p>
-                    <pre className="text-xs whitespace-pre-wrap">{runResult.stdout}</pre>
+                  <div className="mt-3">
+                    <p className="text-sm font-semibold text-green-400 mb-2">Output:</p>
+                    <pre className="text-xs whitespace-pre-wrap bg-gray-800 p-3 rounded border border-gray-600 text-gray-200 font-mono">{runResult.stdout}</pre>
                   </div>
                 )}
                 {runResult.compile_output && (
-                  <div className="mt-2">
-                    <p className="text-sm font-semibold">Compiler Output:</p>
-                    <pre className="text-xs whitespace-pre-wrap text-red-700">{runResult.compile_output}</pre>
+                  <div className="mt-3">
+                    <p className="text-sm font-semibold text-yellow-400 mb-2">Compiler Output:</p>
+                    <pre className="text-xs whitespace-pre-wrap bg-red-900/30 p-3 rounded border border-red-500 text-red-300 font-mono">{runResult.compile_output}</pre>
                   </div>
                 )}
                 {runResult.stderr && (
-                  <div className="mt-2">
-                    <p className="text-sm font-semibold">Errors:</p>
-                    <pre className="text-xs whitespace-pre-wrap text-red-700">{runResult.stderr}</pre>
+                  <div className="mt-3">
+                    <p className="text-sm font-semibold text-red-400 mb-2">Errors:</p>
+                    <pre className="text-xs whitespace-pre-wrap bg-red-900/30 p-3 rounded border border-red-500 text-red-300 font-mono">{runResult.stderr}</pre>
                   </div>
                 )}
               </div>
             )}
             {sampleResults && sampleResults.length > 0 && (
-              <div className="mt-4 p-3 border rounded">
-                <p className="font-semibold mb-2">Sample Results</p>
-                <ul className="text-sm space-y-2">
+              <div className="mt-6 p-4 border border-gray-600 rounded-xl bg-gray-900">
+                <p className="font-semibold mb-4 text-lg text-white flex items-center">
+                  <span className="mr-2">📊</span> Sample Test Results
+                </p>
+                <ul className="text-sm space-y-3">
                   {sampleResults.map((r, i) => (
-                    <li key={i} className={`p-2 rounded ${r.passed ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200"}`}>
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium">Test {i + 1}</span>
-                        <span className={r.passed ? "text-green-700" : "text-red-700"}>{r.passed ? "Passed" : "Failed"}</span>
+                    <li key={i} className={`p-4 rounded-lg border ${r.passed ? "bg-green-900/30 border-green-500" : "bg-red-900/30 border-red-500"}`}>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-medium text-white">Test {i + 1}</span>
+                        <span className={`font-semibold ${r.passed ? "text-green-400" : "text-red-400"}`}>
+                          {r.passed ? "✅ Passed" : "❌ Failed"}
+                        </span>
                       </div>
-                      <div className="mt-1">input: <code>{r.input}</code></div>
-                      <div>expected: <code>{r.expected}</code></div>
-                      <div>output: <code>{(r.stdout || "").trim()}</code></div>
+                      <div className="space-y-1 text-gray-300 font-mono text-xs">
+                        <div><span className="text-blue-400">Input:</span> <code className="bg-gray-800 px-2 py-1 rounded">{r.input}</code></div>
+                        <div><span className="text-green-400">Expected:</span> <code className="bg-gray-800 px-2 py-1 rounded">{r.expected}</code></div>
+                        <div><span className="text-purple-400">Output:</span> <code className="bg-gray-800 px-2 py-1 rounded">{(r.stdout || "").trim()}</code></div>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -462,34 +503,36 @@ function ExamPage() {
             )}
           </div>
         ) : exam.questions.map((q, qIndex) => (
-            <div key={qIndex} className="mb-6 border-b pb-4">
-              <p className="font-semibold mb-2">
+            <div key={qIndex} className="mb-8 bg-gray-900 p-6 rounded-xl border border-gray-700 hover:border-gray-600 transition-all duration-300">
+              <p className="font-semibold mb-4 text-lg text-white">
                 {qIndex + 1}. {q.question || q.questionText}
               </p>
-              {q.options.map((opt, optIndex) => (
-                <label key={optIndex} className="block cursor-pointer">
-                  <input
-                    type="radio"
-                    name={`q-${qIndex}`}
-                    value={optIndex}
-                    checked={answers[qIndex] === optIndex}
-                    onChange={() => handleChange(qIndex, optIndex)}
-                    className="mr-2"
-                  />
-                  {opt}
-                </label>
-              ))}
+              <div className="space-y-3">
+                {q.options.map((opt, optIndex) => (
+                  <label key={optIndex} className="flex items-center cursor-pointer p-3 rounded-lg border border-gray-600 hover:border-blue-500 hover:bg-gray-800 transition-all duration-300">
+                    <input
+                      type="radio"
+                      name={`q-${qIndex}`}
+                      value={optIndex}
+                      checked={answers[qIndex] === optIndex}
+                      onChange={() => handleChange(qIndex, optIndex)}
+                      className="mr-3 w-4 h-4 text-blue-600 bg-gray-800 border-gray-600 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="text-gray-200">{opt}</span>
+                  </label>
+                ))}
+              </div>
             </div>
           ))}
 
-      <div className="mb-3">
+      <div className="mb-8">
         {exam.examType === "coding" && (
-          <div className="mb-3 text-sm">
-            <label className="mr-2 font-medium">Language:</label>
+          <div className="mb-6 bg-gray-900 p-4 rounded-xl border border-gray-700">
+            <label className="mr-3 font-medium text-white">Programming Language:</label>
             <select
               onChange={(e) => setAnswers((prev) => ({ ...(prev || {}), language: e.target.value }))}
               value={currentLanguage}
-              className="border p-2 rounded"
+              className="border border-gray-600 bg-gray-800 text-white p-2 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
             >
               {(exam.allowedLanguages?.length ? exam.allowedLanguages : ["javascript", "python", "c", "cpp", "java"]).map((l) => (
                 <option key={l} value={l}>{l}</option>
@@ -499,11 +542,21 @@ function ExamPage() {
         )}
       </div>
 
-      <button onClick={() => handleSubmit(false)} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-        Submit Exam
-      </button>
+      <div className="flex justify-center mb-8">
+        <button 
+          onClick={() => handleSubmit(false)} 
+          className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center"
+        >
+          <span className="mr-2">🚀</span>
+          Submit Exam
+        </button>
+      </div>
 
-      {message && <p className="mt-4 font-semibold">{message}</p>}
+      {message && (
+        <div className="bg-gray-900 p-4 rounded-xl border border-gray-700 text-center">
+          <p className="font-semibold text-lg">{message}</p>
+        </div>
+      )}
     </div>
   );
 }

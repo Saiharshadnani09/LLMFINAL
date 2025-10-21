@@ -28,21 +28,31 @@ function AdminStudents() {
 
   return (
     <div className="p-6">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">Students</h2>
-        <Link className="text-blue-700 underline" to="/admin">Back to Admin</Link>
+        <Link 
+          className="px-4 py-2 bg-black text-white font-medium rounded hover:bg-zinc-800 transition" 
+          to="/admin"
+        >
+          Back to Admin
+        </Link>
       </div>
       {students.length === 0 ? (
-        <p>No students found.</p>
+        <div className="text-center py-12">
+          <p className="text-gray-600 text-lg">No students found.</p>
+        </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {students.map((s) => (
-            <div key={s._id} className="p-3 border rounded bg-white flex items-center justify-between">
+            <div key={s._id} className="p-4 border border-zinc-300 rounded-lg bg-white shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
               <div>
-                <p className="font-semibold">{s.name}</p>
-                <p className="text-sm text-gray-600">{s.email}</p>
+                <p className="font-semibold text-zinc-900">{s.name}</p>
+                <p className="text-sm text-zinc-600">{s.email}</p>
               </div>
-              <Link className="px-3 py-1 border rounded bg-blue-600 text-white" to={`/admin/students/${s._id}`}>
+              <Link 
+                className="px-4 py-2 bg-black text-white font-medium rounded hover:bg-zinc-800 transition" 
+                to={`/admin/students/${s._id}`}
+              >
                 View Profile
               </Link>
             </div>
